@@ -18,6 +18,7 @@ mkShell {
     ninja
     cmakeCurses
     gcc
+    musl
     openssl
   ];
   RUST_SRC_PATH = "${rust-build}/lib/rustlib/src/rust/library";
