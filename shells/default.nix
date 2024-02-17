@@ -5,7 +5,7 @@
 let
   rust-build = pkgs.rust-bin.stable.latest.default.override {
     extensions = [ "rust-src" "rust-analyzer" "rustfmt" "llvm-tools" ];
-    targets = ["thumbv7em-none-eabihf"];
+    targets = [ "thumbv7em-none-eabihf" ];
   };
 in
 mkShell {
@@ -22,4 +22,5 @@ mkShell {
     openssl
   ];
   RUST_SRC_PATH = "${rust-build}/lib/rustlib/src/rust/library";
+  hardeningDisable = [ "all" ];
 }
