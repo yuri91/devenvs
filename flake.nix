@@ -16,6 +16,7 @@
     devShells.${system} = {
       default = pkgs.callPackage ./shells {};
       musl = pkgs.callPackage ./shells/musl.nix {};
+      sphinx = pkgs.callPackage ./shells/sphinx.nix {};
     };
   };
 }
