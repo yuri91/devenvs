@@ -15,11 +15,14 @@ mkShell {
     rust-build
     clang_16
     cmake
+    meson
+    gdb
+    valgrind
     ninja
     cmakeCurses
     gcc
-    musl
     openssl
+    pkg-config
   ];
   RUST_SRC_PATH = "${rust-build}/lib/rustlib/src/rust/library";
   hardeningDisable = [ "all" ];
