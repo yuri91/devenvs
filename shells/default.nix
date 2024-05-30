@@ -13,7 +13,7 @@ mkShell {
     git
     cargo-edit
     rust-build
-    clang_16
+    clang_18
     cmake
     meson
     gdb
