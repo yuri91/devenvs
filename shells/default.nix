@@ -10,6 +10,7 @@ let
 in
 mkShell {
   packages = with pkgs; [
+    bashInteractive
     git
     cargo-edit
     rust-build
