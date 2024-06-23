@@ -15,6 +15,7 @@ mkShell {
     cargo-edit
     rust-build
     clang_18
+    llvmPackages_18.bintools
     cmake
     meson
     gdb
