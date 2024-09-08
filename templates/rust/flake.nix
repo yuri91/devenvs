@@ -2,12 +2,9 @@
   inputs = {
     rust-overlay.url = "github:oxalica/rust-overlay";
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
-
-    naersk.url = "github:nmattia/naersk";
-    naersk.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, rust-overlay, naersk, ... } @ inputs:
+  outputs = { self, nixpkgs, rust-overlay, ... } @ inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -18,20 +15,12 @@
       extensions = [ "rust-src" ];
       targets = [];
     };
-    naersk-lib = naersk.lib.${system}.override {
+    rustPlatform = pkgs.makeRustPlatform {
       rustc = rust-build;
       cargo = rust-build;
     };
-    runtime-deps = with pkgs; [
-    ];
-    mycrate = naersk-lib.buildPackage {
-      pname = "mycrate";
-      root = ./.;
-      buildInputs = runtime-deps;
-      nativeBuildInputs = with pkgs; [
-        rust-build
-        pkg-config
-      ];
+    mycrate = pkgs.callPackage ./package.nix {
+      inherit rustPlatform;
     };
   in
   {
@@ -42,11 +31,11 @@
         cargo-watch
         rust-analyzer-unwrapped
       ];
-      inputsFrom = with pkgs; [
+      inputsFrom = [
         mycrate
       ];
       RUST_SRC_PATH = "${rust-build}/lib/rustlib/src/rust/library";
-      LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath runtime-deps}";
+      LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath mycrate.runtime-deps}";
     };
     packages.${system}.default = mycrate;
   };
